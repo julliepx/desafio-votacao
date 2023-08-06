@@ -3,6 +3,7 @@ package com.sicredi.cooperativismo.service;
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.infra.ITopicRepository;
+import com.sicredi.cooperativismo.mapper.ITopicMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,7 @@ public class TopicService implements ITopicService {
     }
     @Override
     public Topic createTopic(TopicRequest topicRequest) {
-        Topic topic = new Topic(null, topicRequest.title, topicRequest.startTime, topicRequest.endTime);
-
+        Topic topic = ITopicMapper.buildTopic(topicRequest);
         return this.topicRepository.save(topic);
     }
 }
