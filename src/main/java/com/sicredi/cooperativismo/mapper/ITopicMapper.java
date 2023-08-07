@@ -8,8 +8,6 @@ public interface ITopicMapper {
     static Topic buildTopic(TopicRequest topicRequest) {
         return Topic.builder()
                 .title(topicRequest.title)
-                .startTime(topicRequest.startTime)
-                .endTime(topicRequest.endTime)
                 .build();
     }
 }

@@ -2,11 +2,11 @@ package com.sicredi.cooperativismo.dto.request;
 
 import java.time.LocalDateTime;
 
-public class TopicRequest {
-
-    public String title;
+public class VoteSessionRequest {
 
     public LocalDateTime startTime = LocalDateTime.now();
 
-    public LocalDateTime endTime;
+    public LocalDateTime endTime = LocalDateTime.now().plusMinutes(1);
+
+    public Long topicId;
 }
