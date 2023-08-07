@@ -1,3 +1,9 @@
 package com.sicredi.cooperativismo.dto.request;
 
-public record TopicRequest(String title) {}
+import lombok.Data;
+
+@Data
+public class TopicRequest {
+
+    String title;
+}

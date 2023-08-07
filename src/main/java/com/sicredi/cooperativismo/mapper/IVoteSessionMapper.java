@@ -1,21 +1,17 @@
 package com.sicredi.cooperativismo.mapper;
 
-import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
-import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
+import java.time.LocalDateTime;
+
+@Mapper(imports = {LocalDateTime.class}, componentModel = "spring")
 public interface IVoteSessionMapper {
 
-    static VoteSession buildVoteSession(VoteSessionRequest voteSessionRequest) {
-        VoteSession voteSession = VoteSession.builder()
-                .topic(Topic.builder().id(voteSessionRequest.topicId()).build())
-                .build();
+    @Mapping(source = "topicId", target = "topic.id")
+    @Mapping(defaultExpression = "java(LocalDateTime.now().plusMinutes(1))", source = "endTime", target = "endTime")
+    VoteSession voteSessionRequestToVoteSession(VoteSessionRequest voteSessionRequest);
 
-        if(voteSessionRequest.endTime() != null) {
-            voteSession.setEndTime(voteSessionRequest.endTime());
-        }
-
-        return voteSession;
-    }
 }

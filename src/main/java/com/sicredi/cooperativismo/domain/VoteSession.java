@@ -22,8 +22,7 @@ public class VoteSession {
     @Builder.Default
     private LocalDateTime startTime = LocalDateTime.now();
 
-    @Builder.Default
-    private LocalDateTime endTime = LocalDateTime.now().plusMinutes(1);
+    private LocalDateTime endTime;
 
     @OneToOne
     @JoinColumn(name = "topic_id")

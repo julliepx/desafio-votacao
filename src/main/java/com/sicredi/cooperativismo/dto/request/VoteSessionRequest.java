@@ -1,5 +1,13 @@
 package com.sicredi.cooperativismo.dto.request;
 
+import lombok.Data;
+
 import java.time.LocalDateTime;
 
-public record VoteSessionRequest(LocalDateTime endTime, Long topicId) { }
+@Data
+public class VoteSessionRequest {
+
+    private LocalDateTime endTime;
+
+    private Long topicId;
+}
