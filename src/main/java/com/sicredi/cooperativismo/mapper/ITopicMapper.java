@@ -7,7 +7,7 @@ public interface ITopicMapper {
 
     static Topic buildTopic(TopicRequest topicRequest) {
         return Topic.builder()
-                .title(topicRequest.title)
+                .title(topicRequest.title())
                 .build();
     }
 }

@@ -8,10 +8,14 @@ import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 public interface IVoteSessionMapper {
 
     static VoteSession buildVoteSession(VoteSessionRequest voteSessionRequest) {
-        return VoteSession.builder()
-                .startTime(voteSessionRequest.startTime)
-                .endTime(voteSessionRequest.endTime)
-                .topic(Topic.builder().id(voteSessionRequest.topicId).build())
+        VoteSession voteSession = VoteSession.builder()
+                .topic(Topic.builder().id(voteSessionRequest.topicId()).build())
                 .build();
+
+        if(voteSessionRequest.endTime() != null) {
+            voteSession.setEndTime(voteSessionRequest.endTime());
+        }
+
+        return voteSession;
     }
 }

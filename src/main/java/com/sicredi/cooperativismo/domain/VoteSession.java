@@ -1,14 +1,14 @@
 package com.sicredi.cooperativismo.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,8 +19,10 @@ public class VoteSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Builder.Default
     private LocalDateTime startTime = LocalDateTime.now();
 
+    @Builder.Default
     private LocalDateTime endTime = LocalDateTime.now().plusMinutes(1);
 
     @OneToOne
