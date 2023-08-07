@@ -1,7 +1,7 @@
 package com.sicredi.cooperativismo.api;
 
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
-import com.sicredi.cooperativismo.service.TopicService;
+import com.sicredi.cooperativismo.service.ITopicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class TopicController {
 
     @Autowired
-    private TopicService topicService;
+    private ITopicService topicService;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

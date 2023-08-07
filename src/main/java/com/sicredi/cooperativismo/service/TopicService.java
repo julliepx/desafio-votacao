@@ -5,21 +5,21 @@ import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.infra.ITopicRepository;
 import com.sicredi.cooperativismo.mapper.ITopicMapper;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TopicService implements ITopicService {
 
     private final ITopicRepository topicRepository;
 
-    @Autowired
-    public TopicService(ITopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
-    }
+    private final ITopicMapper topicMapper;
+
     @Override
     public Topic createTopic(TopicRequest topicRequest) {
-        Topic topic = ITopicMapper.buildTopic(topicRequest);
+        Topic topic = topicMapper.topicRequestToTopic(topicRequest);
         return this.topicRepository.save(topic);
     }
 }

@@ -1,12 +1,9 @@
 package com.sicredi.cooperativismo.dto.request;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
+@Data
 public class TopicRequest {
 
-    public String title;
-
-    public LocalDateTime startTime = LocalDateTime.now();
-
-    public LocalDateTime endTime = LocalDateTime.now().plusMinutes(1);
+    String title;
 }
