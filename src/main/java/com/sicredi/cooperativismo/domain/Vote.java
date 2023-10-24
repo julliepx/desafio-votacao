@@ -18,8 +18,12 @@ public class Vote {
     @Enumerated(EnumType.STRING)
     private VoteValueEnum value;
 
-    @ManyToOne
-    @JoinTable(name = "affiliated_vote", joinColumns = @JoinColumn(name = "vote_id"),
+    @OneToOne
+    @JoinColumn(name = "topic_id")
+    private Topic topic;
+
+    @OneToOne
+    @JoinTable(name = "vote_affiliated", joinColumns = @JoinColumn(name = "vote_id"),
             inverseJoinColumns = @JoinColumn(name = "affiliated_id"))
     private Affiliated affiliated;
 }

@@ -17,7 +17,7 @@ public class Affiliated {
 
     private String name;
 
-    private String cpf;
+    private String document;
 
     @Enumerated(EnumType.STRING)
     private AffiliatedStatusEnum canVote;
