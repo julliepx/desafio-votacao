@@ -1,10 +1,12 @@
 package com.sicredi.cooperativismo.api;
 
+import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.service.ITopicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +17,7 @@ public class TopicController {
     private ITopicService topicService;
 
     @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createTopic(@RequestBody @Valid TopicRequest topicRequest) {
-        this.topicService.createTopic(topicRequest);
+    public ResponseEntity<Topic> createTopic(@RequestBody @Valid TopicRequest topicRequest) {
+        return new ResponseEntity<>(this.topicService.createTopic(topicRequest), HttpStatus.CREATED);
     }
 }

@@ -16,6 +16,7 @@ public class Vote {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "vote_value")
     private VoteValueEnum value;
 
     @OneToOne

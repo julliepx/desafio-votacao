@@ -2,6 +2,7 @@ package com.sicredi.cooperativismo.domain;
 
 import com.sicredi.cooperativismo.enums.AffiliatedStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,8 +16,10 @@ public class Affiliated {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String document;
 
     @Enumerated(EnumType.STRING)
