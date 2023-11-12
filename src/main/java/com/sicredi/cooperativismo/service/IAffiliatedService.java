@@ -6,4 +6,5 @@ import com.sicredi.cooperativismo.dto.request.AffiliatedRequest;
 public interface IAffiliatedService {
 
     Affiliated createAffiliated(AffiliatedRequest affiliatedRequest);
+    Affiliated getById(Long id);
 }

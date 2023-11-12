@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 public class VoteRequest {
     private VoteValueEnum value;
-    private Long topicId;
+    private Long voteSessionId;
     private Long affiliatedId;
 }
