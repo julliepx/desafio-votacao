@@ -1,14 +1,10 @@
 package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Affiliated;
-import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
-import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
-import com.sicredi.cooperativismo.infra.ITopicRepository;
 import com.sicredi.cooperativismo.infra.IVoteRepository;
-import com.sicredi.cooperativismo.mapper.ITopicMapper;
 import com.sicredi.cooperativismo.mapper.IVoteMapper;
 import com.sicredi.cooperativismo.validation.ValidationService;
 import lombok.RequiredArgsConstructor;

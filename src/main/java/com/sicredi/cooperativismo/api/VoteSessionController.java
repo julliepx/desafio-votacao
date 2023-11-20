@@ -1,7 +1,6 @@
 package com.sicredi.cooperativismo.api;
 
 import com.sicredi.cooperativismo.domain.VoteSession;
-import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.service.IVoteSessionService;
 import jakarta.validation.Valid;

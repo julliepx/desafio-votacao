@@ -1,7 +1,6 @@
 package com.sicredi.cooperativismo.domain;
 
 import com.sicredi.cooperativismo.enums.MeetingStatusEnum;
-import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;

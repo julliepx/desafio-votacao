@@ -4,9 +4,7 @@ import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.infra.ITopicRepository;
 import com.sicredi.cooperativismo.mapper.ITopicMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
