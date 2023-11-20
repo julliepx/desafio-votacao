@@ -27,4 +27,9 @@ public class VoteSession {
     @OneToOne
     @JoinColumn(name = "topic_id")
     private Topic topic;
+
+    @OneToMany
+    @JoinTable(name = "vote_session_votes", joinColumns = @JoinColumn(name = "vote_session_id"),
+            inverseJoinColumns = @JoinColumn(name = "vote_id"))
+    private List<Vote> votes;
 }

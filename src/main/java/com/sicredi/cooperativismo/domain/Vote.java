@@ -2,12 +2,16 @@ package com.sicredi.cooperativismo.domain;
 
 import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "vote")
 public class Vote {
 
@@ -18,10 +22,6 @@ public class Vote {
     @Enumerated(EnumType.STRING)
     @Column(name = "vote_value")
     private VoteValueEnum value;
-
-    @OneToOne
-    @JoinColumn(name = "topic_id")
-    private Topic topic;
 
     @OneToOne
     @JoinTable(name = "vote_affiliated", joinColumns = @JoinColumn(name = "vote_id"),
