@@ -5,4 +5,5 @@ import com.sicredi.cooperativismo.dto.request.TopicRequest;
 
 public interface ITopicService {
     Topic createTopic(TopicRequest topicRequest);
+    Topic getById(Long id);
 }

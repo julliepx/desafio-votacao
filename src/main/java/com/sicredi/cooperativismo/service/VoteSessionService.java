@@ -1,5 +1,6 @@
 package com.sicredi.cooperativismo.service;
 
+import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
@@ -8,19 +9,24 @@ import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IVoteSessionRepository;
 import com.sicredi.cooperativismo.mapper.IVoteSessionMapper;
+import com.sicredi.cooperativismo.validation.VoteSessionValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VoteSessionService implements IVoteSessionService{
+public class VoteSessionService implements IVoteSessionService {
 
     private final IVoteSessionRepository voteSessionRepository;
 
     private final IVoteSessionMapper voteSessionMapper;
 
+    private final ITopicService topicService;
+
     @Override
     public VoteSession createVoteSession(VoteSessionRequest voteSessionRequest) {
+        Topic topic = topicService.getById(voteSessionRequest.getTopicId());
+
         VoteSession voteSession = voteSessionMapper.voteSessionRequestToVoteSession(voteSessionRequest);
 
         return this.voteSessionRepository.save(voteSession);
