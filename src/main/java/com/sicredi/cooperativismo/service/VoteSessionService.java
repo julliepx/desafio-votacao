@@ -9,7 +9,6 @@ import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IVoteSessionRepository;
 import com.sicredi.cooperativismo.mapper.IVoteSessionMapper;
-import com.sicredi.cooperativismo.validation.VoteSessionValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
