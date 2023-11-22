@@ -31,12 +31,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
+	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
-//	compileOnly 'org.projectlombok:lombok'
 	compileOnly "org.projectlombok:lombok", "org.mapstruct:mapstruct:${mapstructVersion}"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-//	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.projectlombok:lombok", "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

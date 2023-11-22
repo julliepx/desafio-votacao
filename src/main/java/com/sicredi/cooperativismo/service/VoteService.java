@@ -6,7 +6,8 @@ import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
 import com.sicredi.cooperativismo.infra.IVoteRepository;
 import com.sicredi.cooperativismo.mapper.IVoteMapper;
-import com.sicredi.cooperativismo.validation.ValidationService;
+import com.sicredi.cooperativismo.validation.AffiliatedValidationService;
+import com.sicredi.cooperativismo.validation.VoteSessionValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +28,8 @@ public class VoteService implements IVoteService {
         Affiliated affiliated = affiliatedService.getById(voteRequest.getAffiliatedId());
         VoteSession voteSession = voteSessionService.getById(voteRequest.getVoteSessionId());
 
-        ValidationService.validateVoteSessionStatus(voteSession);
-        ValidationService.validateAffiliatedVoteStatus(voteSession, affiliated);
+        VoteSessionValidationService.validateVoteSessionStatus(voteSession);
+        AffiliatedValidationService.validateAffiliatedVoteStatus(voteSession, affiliated);
 
         Vote vote = voteMapper.voteRequestToVote(voteRequest);
         voteSession.getVotes().add(vote);
