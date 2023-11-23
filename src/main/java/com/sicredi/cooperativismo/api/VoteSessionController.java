@@ -22,8 +22,19 @@ public class VoteSessionController {
         return new ResponseEntity<>(this.voteSessionService.createVoteSession(voteSessionRequest), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<VoteSession> getVoteSessionById(@PathVariable Long id) {
+        return new ResponseEntity<>(voteSessionService.getById(id), HttpStatus.OK);
+    }
+
     @GetMapping("/result/{id}")
     public ResponseEntity<VoteSessionResultResponse> getVoteSessionResults(@PathVariable Long id) {
         return new ResponseEntity<>(voteSessionService.getVoteSessionResults(id), HttpStatus.OK);
+    }
+
+    @PatchMapping("/end/{id}")
+    public ResponseEntity<VoteSession> endVoteSession(@PathVariable Long id) {
+        voteSessionService.endVoteSession(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

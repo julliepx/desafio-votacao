@@ -28,7 +28,7 @@ public class VoteService implements IVoteService {
         Affiliated affiliated = affiliatedService.getById(voteRequest.getAffiliatedId());
         VoteSession voteSession = voteSessionService.getById(voteRequest.getVoteSessionId());
 
-        VoteSessionValidationService.validateVoteSessionStatus(voteSession);
+        VoteSessionValidationService.validateVoteSessionStatusToVoteOrEnd(voteSession);
         AffiliatedValidationService.validateAffiliatedVoteStatus(voteSession, affiliated);
 
         Vote vote = voteMapper.voteRequestToVote(voteRequest);

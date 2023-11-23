@@ -8,5 +8,6 @@ public interface IVoteSessionService {
 
     VoteSession createVoteSession(VoteSessionRequest voteSessionRequest);
     VoteSession getById(Long id);
+    void endVoteSession(Long id);
     VoteSessionResultResponse getVoteSessionResults(Long voteSessionId);
 }

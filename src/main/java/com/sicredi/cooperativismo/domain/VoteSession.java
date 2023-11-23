@@ -1,5 +1,6 @@
 package com.sicredi.cooperativismo.domain;
 
+import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,9 @@ public class VoteSession {
     private LocalDateTime startTime = LocalDateTime.now();
 
     private LocalDateTime endTime;
+
+    @Builder.Default
+    private VoteSessionStatusEnum status = VoteSessionStatusEnum.IN_PROGRESS;
 
     @OneToOne
     @JoinColumn(name = "topic_id")

@@ -1,5 +1,6 @@
 package com.sicredi.cooperativismo.domain;
 
+import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,4 +18,8 @@ public class Topic {
     private Long id;
 
     private String title;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private TopicStatusEnum status = TopicStatusEnum.IN_PROGRESS;
 }
