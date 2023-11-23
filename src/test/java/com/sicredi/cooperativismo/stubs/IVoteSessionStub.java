@@ -3,19 +3,22 @@ package com.sicredi.cooperativismo.stubs;
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
-import com.sicredi.cooperativismo.mapper.IVoteSessionMapper;
+import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
+import com.sicredi.cooperativismo.enums.TopicStatusEnum;
+import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public interface VoteSessionStub {
+public interface IVoteSessionStub {
 
     static VoteSession buildVoteSession() {
         return VoteSession.builder()
                 .id(1L)
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusMinutes(2))
-                .topic(new Topic(1L, "Topic One"))
+                .status(VoteSessionStatusEnum.IN_PROGRESS)
+                .topic(new Topic(1L, "Topic One", TopicStatusEnum.IN_PROGRESS))
                 .votes(new ArrayList<>())
                 .build();
     }
@@ -24,6 +27,15 @@ public interface VoteSessionStub {
         return VoteSessionRequest.builder()
                 .topicId(1L)
                 .endTime(LocalDateTime.now().plusMinutes(2))
+                .build();
+    }
+
+    static VoteSessionResultResponse buildVoteSessionResult() {
+        return VoteSessionResultResponse.builder()
+                .noVotes(1)
+                .yesVotes(2)
+                .totalVotes(3)
+                .status(VoteSessionStatusEnum.IN_PROGRESS)
                 .build();
     }
 }

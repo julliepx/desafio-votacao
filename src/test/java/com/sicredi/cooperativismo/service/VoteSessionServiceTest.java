@@ -1,22 +1,27 @@
 package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Affiliated;
+import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
+import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteValueEnum;
+import com.sicredi.cooperativismo.exceptions.BadRequestException;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IVoteSessionRepository;
 import com.sicredi.cooperativismo.mapper.IVoteSessionMapper;
-import com.sicredi.cooperativismo.stubs.VoteSessionStub;
+import com.sicredi.cooperativismo.stubs.ITopicStub;
+import com.sicredi.cooperativismo.stubs.IVoteSessionStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,17 +35,21 @@ class VoteSessionServiceTest {
     @InjectMocks
     private VoteSessionService voteSessionService;
     @Mock
+    private ITopicService topicService;
+    @Mock
     private IVoteSessionRepository voteSessionRepository;
     @Mock
     private IVoteSessionMapper voteSessionMapper;
 
     private VoteSession voteSession;
     private VoteSessionRequest voteSessionRequest;
+    private Topic topic;
 
     @BeforeEach
     void setup() {
-        this.voteSession = VoteSessionStub.buildVoteSession();
-        this.voteSessionRequest = VoteSessionStub.buildVoteSessionRequest();
+        this.voteSession = IVoteSessionStub.buildVoteSession();
+        this.voteSessionRequest = IVoteSessionStub.buildVoteSessionRequest();
+        this.topic = ITopicStub.buildTopic();
     }
 
     @Test
@@ -50,6 +59,7 @@ class VoteSessionServiceTest {
         votes.add(new Vote(2L, VoteValueEnum.YES, new Affiliated()));
         votes.add(new Vote(3L, VoteValueEnum.NO, new Affiliated()));
         voteSession.setVotes(votes);
+        voteSession.setStatus(VoteSessionStatusEnum.APPROVED);
 
         when(voteSessionRepository.findById(1L)).thenReturn(Optional.of(voteSession));
 
@@ -61,6 +71,14 @@ class VoteSessionServiceTest {
                 () -> assertEquals(2, result.getYesVotes()),
                 () -> assertEquals(1, result.getNoVotes())
         );
+        verify(voteSessionRepository).findById(1L);
+    }
+
+    @Test
+    void shouldThrowBadRequestExceptionWhenGettingResultsIfVoteSessionHasNotFinishedYet() {
+        when(voteSessionRepository.findById(1L)).thenReturn(Optional.of(voteSession));
+
+        assertThrows(BadRequestException.class, () -> voteSessionService.getVoteSessionResults(1L));
         verify(voteSessionRepository).findById(1L);
     }
 
@@ -83,32 +101,80 @@ class VoteSessionServiceTest {
 
     @Test
     void shouldThrowNotFoundExceptionWhenGettingVoteSessionByNonExistingId() {
-        when(voteSessionRepository.findById(999L)).thenReturn(Optional.empty());
+        when(voteSessionRepository.findById(666L)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> voteSessionService.getById(999L));
-        verify(voteSessionRepository).findById(999L);
+        assertThrows(NotFoundException.class, () -> voteSessionService.getById(666L));
+        verify(voteSessionRepository).findById(666L);
     }
 
     @Test
     void shouldCreateVoteSession() {
+        when(topicService.getById(1L)).thenReturn(topic);
         when(voteSessionMapper.voteSessionRequestToVoteSession(voteSessionRequest)).thenReturn(voteSession);
         when(voteSessionRepository.save(any(VoteSession.class))).thenReturn(voteSession);
 
         VoteSession savedVoteSession = voteSessionService.createVoteSession(voteSessionRequest);
 
-        assertEquals(voteSessionRequest.getTopicId(), savedVoteSession.getTopic().getId());
-        verify(voteSessionRepository, times(1)).save(any(VoteSession.class));
+        assertAll("voteSession",
+                () -> assertEquals(voteSessionRequest.getTopicId(), savedVoteSession.getTopic().getId()),
+                () -> assertEquals(TopicStatusEnum.IN_PROGRESS, savedVoteSession.getTopic().getStatus()));
+        verify(voteSessionRepository).save(any(VoteSession.class));
     }
 
-//    @Test
-//    void shouldReturnNotFoundExceptionWhenCreatingVoteSessionAndTopicDoesNotExist() {
-//        when(voteSessionMapper.voteSessionRequestToVoteSession(voteSessionRequest)).thenReturn(voteSession);
-//        when(voteSessionRepository.save(any(VoteSession.class))).thenReturn(voteSession);
-//
-//
-//        VoteSession savedVoteSession = voteSessionService.createVoteSession(voteSessionRequest);
-//
-//        assertEquals(voteSessionRequest.getTopicId(), savedVoteSession.getTopic().getId());
-//        verify(voteSessionRepository, times(1)).save(any(VoteSession.class));
-//    }
+    @Test
+    void shouldReturnNotFoundExceptionWhenCreatingVoteSessionAndTopicDoesNotExist() {
+        voteSessionRequest = new VoteSessionRequest(LocalDateTime.now().plusMinutes(1), 666L);
+        when(topicService.getById(666L)).thenThrow(NotFoundException.class);
+
+        assertThrows(NotFoundException.class, () -> voteSessionService.createVoteSession(voteSessionRequest));
+        verify(topicService).getById(666L);
+    }
+
+    @Test
+    void shouldReturnBadRequestExceptionWhenCreatingVoteSessionForATopicThatIsAlreadyInVoting() {
+        topic.setStatus(TopicStatusEnum.VOTING);
+        when(topicService.getById(1L)).thenReturn(topic);
+
+        assertThrows(BadRequestException.class, () -> voteSessionService.createVoteSession(voteSessionRequest));
+        verify(topicService).getById(1L);
+    }
+
+    @Test
+    void shouldReturnBadRequestExceptionWhenCreatingVoteSessionForATopicThatHasBeenFinished() {
+        topic.setStatus(TopicStatusEnum.FINISHED);
+        when(topicService.getById(1L)).thenReturn(topic);
+
+        assertThrows(BadRequestException.class, () -> voteSessionService.createVoteSession(voteSessionRequest));
+        verify(topicService).getById(1L);
+    }
+
+    @Test
+    void shouldEndVoteSession() {
+        voteSession.getVotes().add(new Vote(1L, VoteValueEnum.YES, new Affiliated()));
+        when(voteSessionRepository.findById(1L)).thenReturn(Optional.of(voteSession));
+
+        voteSessionService.endVoteSession(1L);
+
+        assertEquals(VoteSessionStatusEnum.APPROVED, voteSession.getStatus());
+        verify(voteSessionRepository).findById(1L);
+        verify(voteSessionRepository).save(voteSession);
+    }
+
+    @Test
+    void shouldReturnBadRequestExceptionWhenEndingAVoteSessionThatIsAlreadyFinished() {
+        voteSession.setStatus(VoteSessionStatusEnum.TIED);
+        when(voteSessionRepository.findById(1L)).thenReturn(Optional.of(voteSession));
+
+        assertThrows(BadRequestException.class, () -> voteSessionService.endVoteSession(1L));
+        verify(voteSessionRepository).findById(1L);
+    }
+
+    @Test
+    void shouldReturnNotFoundExceptionWhenEndingAVoteSessionThatDoesNotExist() {
+        when(voteSessionRepository.findById(666L)).thenReturn(Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> voteSessionService.endVoteSession(666L));
+        verify(voteSessionRepository).findById(666L);
+    }
+
 }
