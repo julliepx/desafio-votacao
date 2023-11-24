@@ -26,9 +26,10 @@ public class Meeting {
     private LocalDateTime startTime = LocalDateTime.now();
 
     private LocalDateTime endTime;
-    
+
+    @Builder.Default
     @Enumerated(EnumType.STRING)
-    private MeetingStatusEnum status;
+    private MeetingStatusEnum status = MeetingStatusEnum.STARTED;
 
     @OneToMany
     @JoinTable(name = "meeting_topics", joinColumns = @JoinColumn(name = "meeting_id"),
