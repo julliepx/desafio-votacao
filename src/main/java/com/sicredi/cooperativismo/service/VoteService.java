@@ -4,6 +4,7 @@ import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
+import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IVoteRepository;
 import com.sicredi.cooperativismo.mapper.IVoteMapper;
 import com.sicredi.cooperativismo.validation.AffiliatedValidationService;
@@ -32,8 +33,15 @@ public class VoteService implements IVoteService {
         AffiliatedValidationService.validateAffiliatedVoteStatus(voteSession, affiliated);
 
         Vote vote = voteMapper.voteRequestToVote(voteRequest);
+
+        vote.setAffiliated(affiliated);
         voteSession.getVotes().add(vote);
 
         return this.voteRepository.save(vote);
+    }
+
+    @Override
+    public Vote getById(Long id) {
+        return this.voteRepository.findById(id).orElseThrow(() -> new NotFoundException("O Voto não foi encontrado."));
     }
 }

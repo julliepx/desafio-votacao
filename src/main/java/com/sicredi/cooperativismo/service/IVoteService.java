@@ -6,4 +6,5 @@ import com.sicredi.cooperativismo.dto.request.VoteRequest;
 public interface IVoteService {
 
     Vote vote(VoteRequest voteRequest);
+    Vote getById(Long id);
 }

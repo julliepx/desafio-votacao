@@ -20,4 +20,9 @@ public class VoteController {
     public ResponseEntity<Vote> vote(@RequestBody @Valid VoteRequest voteRequest) {
         return new ResponseEntity<>(this.voteService.vote(voteRequest), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Vote> getVoteById(@PathVariable Long id) {
+        return new ResponseEntity<>(voteService.getById(id), HttpStatus.OK);
+    }
 }
