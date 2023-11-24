@@ -20,4 +20,9 @@ public class TopicController {
     public ResponseEntity<Topic> createTopic(@RequestBody @Valid TopicRequest topicRequest) {
         return new ResponseEntity<>(this.topicService.createTopic(topicRequest), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
+        return new ResponseEntity<>(topicService.getById(id), HttpStatus.OK);
+    }
 }

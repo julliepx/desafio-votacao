@@ -1,0 +1,22 @@
+package com.sicredi.cooperativismo.stubs;
+
+import com.sicredi.cooperativismo.domain.Meeting;
+import com.sicredi.cooperativismo.domain.Topic;
+import com.sicredi.cooperativismo.enums.MeetingStatusEnum;
+import com.sicredi.cooperativismo.enums.TopicStatusEnum;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public interface IMeetingStub {
+
+    static Meeting buildMeeting() {
+        return Meeting.builder()
+                .id(1L)
+                .startTime(LocalDateTime.now())
+                .endTime(LocalDateTime.now().plusMinutes(1))
+                .status(MeetingStatusEnum.STARTED)
+                .topics(new ArrayList<>())
+                .build();
+    }
+}
