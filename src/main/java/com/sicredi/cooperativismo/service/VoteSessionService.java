@@ -3,6 +3,7 @@ package com.sicredi.cooperativismo.service;
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
+import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
 import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
@@ -25,20 +26,25 @@ public class VoteSessionService implements IVoteSessionService {
 
     private final IVoteSessionMapper voteSessionMapper;
 
-    private final ITopicService topicService;
+    private final TopicService topicService;
 
     @Override
-    public VoteSession createVoteSession(VoteSessionRequest voteSessionRequest) {
+    public VoteSessionResponse createVoteSession(VoteSessionRequest voteSessionRequest) {
         Topic topic = topicService.getById(voteSessionRequest.getTopicId());
         TopicValidationService.validateTopicStatus(topic);
 
         VoteSession voteSession = voteSessionMapper.voteSessionRequestToVoteSession(voteSessionRequest);
         topic.setStatus(TopicStatusEnum.VOTING);
 
-        return this.voteSessionRepository.save(voteSession);
+        return this.voteSessionMapper.voteSessionToVoteSessionResponse(voteSessionRepository.save(voteSession));
     }
 
     @Override
+    public VoteSessionResponse getVoteSessionById(Long id) {
+        VoteSession voteSession = getById(id);
+        return this.voteSessionMapper.voteSessionToVoteSessionResponse(voteSession);
+    }
+
     public VoteSession getById(Long id) {
         return this.voteSessionRepository.findById(id).orElseThrow(() -> new NotFoundException("A sessão de votação não foi encontrada."));
     }

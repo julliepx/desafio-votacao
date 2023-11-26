@@ -5,6 +5,7 @@ import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
+import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
 import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
@@ -35,20 +36,22 @@ class VoteSessionServiceTest {
     @InjectMocks
     private VoteSessionService voteSessionService;
     @Mock
-    private ITopicService topicService;
+    private TopicService topicService;
     @Mock
     private IVoteSessionRepository voteSessionRepository;
-    @Mock
+    @Spy
     private IVoteSessionMapper voteSessionMapper;
 
     private VoteSession voteSession;
     private VoteSessionRequest voteSessionRequest;
+    private VoteSessionResponse voteSessionResponse;
     private Topic topic;
 
     @BeforeEach
     void setup() {
         this.voteSession = IVoteSessionStub.buildVoteSession();
         this.voteSessionRequest = IVoteSessionStub.buildVoteSessionRequest();
+        this.voteSessionResponse = IVoteSessionStub.buildVoteSessionResponse();
         this.topic = ITopicStub.buildTopic();
     }
 
@@ -112,8 +115,9 @@ class VoteSessionServiceTest {
         when(topicService.getById(1L)).thenReturn(topic);
         when(voteSessionMapper.voteSessionRequestToVoteSession(voteSessionRequest)).thenReturn(voteSession);
         when(voteSessionRepository.save(any(VoteSession.class))).thenReturn(voteSession);
+        when(voteSessionMapper.voteSessionToVoteSessionResponse(voteSession)).thenReturn(voteSessionResponse);
 
-        VoteSession savedVoteSession = voteSessionService.createVoteSession(voteSessionRequest);
+        VoteSessionResponse savedVoteSession = voteSessionService.createVoteSession(voteSessionRequest);
 
         assertAll("voteSession",
                 () -> assertEquals(voteSessionRequest.getTopicId(), savedVoteSession.getTopic().getId()),
