@@ -2,9 +2,10 @@ package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
+import com.sicredi.cooperativismo.dto.response.VoteResponse;
 
 public interface IVoteService {
 
-    Vote vote(VoteRequest voteRequest);
-    Vote getById(Long id);
+    VoteResponse vote(VoteRequest voteRequest);
+    VoteResponse getVoteById(Long id);
 }

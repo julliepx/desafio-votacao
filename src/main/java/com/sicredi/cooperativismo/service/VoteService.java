@@ -4,6 +4,7 @@ import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
+import com.sicredi.cooperativismo.dto.response.VoteResponse;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IVoteRepository;
 import com.sicredi.cooperativismo.mapper.IVoteMapper;
@@ -20,12 +21,12 @@ public class VoteService implements IVoteService {
 
     private final IVoteMapper voteMapper;
 
-    private final IAffiliatedService affiliatedService;
+    private final AffiliatedService affiliatedService;
 
-    private final IVoteSessionService voteSessionService;
+    private final VoteSessionService voteSessionService;
 
     @Override
-    public Vote vote(VoteRequest voteRequest) {
+    public VoteResponse vote(VoteRequest voteRequest) {
         Affiliated affiliated = affiliatedService.getById(voteRequest.getAffiliatedId());
         VoteSession voteSession = voteSessionService.getById(voteRequest.getVoteSessionId());
 
@@ -37,11 +38,18 @@ public class VoteService implements IVoteService {
         vote.setAffiliated(affiliated);
         voteSession.getVotes().add(vote);
 
-        return this.voteRepository.save(vote);
+        return this.voteMapper.voteToVoteResponse(voteRepository.save(vote));
     }
 
     @Override
+    public VoteResponse getVoteById(Long id) {
+        Vote vote = getById(id);
+        return this.voteMapper.voteToVoteResponse(vote);
+    }
+
     public Vote getById(Long id) {
         return this.voteRepository.findById(id).orElseThrow(() -> new NotFoundException("O Voto não foi encontrado."));
     }
+
+
 }
