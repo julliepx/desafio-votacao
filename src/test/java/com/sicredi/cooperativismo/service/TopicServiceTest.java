@@ -2,7 +2,6 @@ package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Meeting;
 import com.sicredi.cooperativismo.domain.Topic;
-import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import com.sicredi.cooperativismo.enums.MeetingStatusEnum;

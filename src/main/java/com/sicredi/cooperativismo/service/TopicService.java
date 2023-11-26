@@ -8,7 +8,6 @@ import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.ITopicRepository;
 import com.sicredi.cooperativismo.mapper.ITopicMapper;
 import com.sicredi.cooperativismo.validation.MeetingValidationService;
-import jakarta.validation.Validation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

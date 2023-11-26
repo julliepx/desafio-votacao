@@ -5,8 +5,6 @@ import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import org.mapstruct.Mapper;
 
-import java.time.LocalDateTime;
-
 @Mapper(componentModel = "spring")
 public interface ITopicMapper {
 

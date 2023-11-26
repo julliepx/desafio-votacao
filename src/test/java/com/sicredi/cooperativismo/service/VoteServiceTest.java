@@ -4,9 +4,7 @@ import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
-import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteResponse;
-import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import com.sicredi.cooperativismo.exceptions.BadRequestException;
@@ -23,7 +21,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

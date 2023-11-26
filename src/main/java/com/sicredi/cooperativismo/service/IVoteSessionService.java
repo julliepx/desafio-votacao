@@ -1,6 +1,5 @@
 package com.sicredi.cooperativismo.service;
 
-import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;

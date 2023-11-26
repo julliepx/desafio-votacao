@@ -1,6 +1,5 @@
 package com.sicredi.cooperativismo.api;
 
-import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
 import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import com.sicredi.cooperativismo.service.ITopicService;

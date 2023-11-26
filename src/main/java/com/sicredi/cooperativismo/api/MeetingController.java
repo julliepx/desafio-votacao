@@ -1,6 +1,5 @@
 package com.sicredi.cooperativismo.api;
 
-import com.sicredi.cooperativismo.domain.Meeting;
 import com.sicredi.cooperativismo.dto.request.MeetingRequest;
 import com.sicredi.cooperativismo.dto.response.MeetingResponse;
 import com.sicredi.cooperativismo.service.IMeetingService;

@@ -1,6 +1,5 @@
 package com.sicredi.cooperativismo.service;
 
-import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.dto.request.AffiliatedRequest;
 import com.sicredi.cooperativismo.dto.response.AffiliatedResponse;
 

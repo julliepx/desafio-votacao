@@ -5,7 +5,6 @@ import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.time.LocalDateTime;
 

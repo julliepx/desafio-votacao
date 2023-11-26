@@ -4,7 +4,6 @@ import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
-import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
 import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 
@@ -38,15 +37,6 @@ public interface IVoteSessionStub {
                 .endTime(LocalDateTime.now().plusMinutes(2))
                 .status(VoteSessionStatusEnum.IN_PROGRESS)
                 .topic(new Topic(1L, "Topic One", TopicStatusEnum.IN_PROGRESS))
-                .build();
-    }
-
-    static VoteSessionResultResponse buildVoteSessionResult() {
-        return VoteSessionResultResponse.builder()
-                .noVotes(1)
-                .yesVotes(2)
-                .totalVotes(3)
-                .status(VoteSessionStatusEnum.IN_PROGRESS)
                 .build();
     }
 }
