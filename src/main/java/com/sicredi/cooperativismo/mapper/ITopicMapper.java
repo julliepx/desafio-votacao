@@ -2,6 +2,7 @@ package com.sicredi.cooperativismo.mapper;
 
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
+import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import org.mapstruct.Mapper;
 
 import java.time.LocalDateTime;
@@ -10,4 +11,5 @@ import java.time.LocalDateTime;
 public interface ITopicMapper {
 
     Topic topicRequestToTopic(TopicRequest topicRequest);
+    TopicResponse topicToTopicResponse(Topic topic);
 }

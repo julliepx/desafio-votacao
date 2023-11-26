@@ -4,6 +4,7 @@ import com.sicredi.cooperativismo.domain.Meeting;
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
+import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import com.sicredi.cooperativismo.enums.MeetingStatusEnum;
 import com.sicredi.cooperativismo.enums.TopicStatusEnum;
 import com.sicredi.cooperativismo.exceptions.BadRequestException;
@@ -34,18 +35,20 @@ class TopicServiceTest {
     @Mock
     private ITopicRepository topicRepository;
     @Mock
-    private IMeetingService meetingService;
+    private MeetingService meetingService;
     @Mock
     private ITopicMapper topicMapper;
 
     private Meeting meeting;
     private Topic topic;
     private TopicRequest topicRequest;
+    private TopicResponse topicResponse;
     @BeforeEach
     void setup() {
         this.meeting = IMeetingStub.buildMeeting();
         this.topic = ITopicStub.buildTopic();
         this.topicRequest = ITopicStub.buildTopicRequest();
+        this.topicResponse = ITopicStub.buildTopicResponse();
     }
 
     @Test
@@ -53,8 +56,9 @@ class TopicServiceTest {
         when(meetingService.getById(1L)).thenReturn(meeting);
         when(topicMapper.topicRequestToTopic(topicRequest)).thenReturn(topic);
         when(topicRepository.save(any(Topic.class))).thenReturn(topic);
+        when(topicMapper.topicToTopicResponse(topic)).thenReturn(topicResponse);
 
-        Topic savedTopic = topicService.createTopic(topicRequest);
+        TopicResponse savedTopic = topicService.createTopic(topicRequest);
 
         assertAll("createTopic",
                 () -> assertEquals(topicRequest.getTitle(), savedTopic.getTitle()),

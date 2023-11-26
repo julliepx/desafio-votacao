@@ -2,6 +2,7 @@ package com.sicredi.cooperativismo.api;
 
 import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
+import com.sicredi.cooperativismo.dto.response.TopicResponse;
 import com.sicredi.cooperativismo.service.ITopicService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public class TopicController {
             @ApiResponse(responseCode = "400", description = "Caso os dados informados sejam inválidos.")
     })
     @PostMapping()
-    public ResponseEntity<Topic> createTopic(@RequestBody @Valid TopicRequest topicRequest) {
+    public ResponseEntity<TopicResponse> createTopic(@RequestBody @Valid TopicRequest topicRequest) {
         return new ResponseEntity<>(this.topicService.createTopic(topicRequest), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class TopicController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrada uma Pauta com o ID informado.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Topic> getTopicById(@PathVariable Long id) {
-        return new ResponseEntity<>(topicService.getById(id), HttpStatus.OK);
+    public ResponseEntity<TopicResponse> getTopicById(@PathVariable Long id) {
+        return new ResponseEntity<>(topicService.getTopicById(id), HttpStatus.OK);
     }
 }
