@@ -4,8 +4,7 @@ import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
-import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
-import com.sicredi.cooperativismo.enums.TopicStatusEnum;
+import com.sicredi.cooperativismo.dto.response.VoteResponse;
 import com.sicredi.cooperativismo.enums.VoteSessionStatusEnum;
 import com.sicredi.cooperativismo.enums.VoteValueEnum;
 import com.sicredi.cooperativismo.exceptions.BadRequestException;
@@ -22,7 +21,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,14 +36,15 @@ class VoteServiceTest {
     @Mock
     private IVoteRepository voteRepository;
     @Mock
-    private IAffiliatedService affiliatedService;
+    private AffiliatedService affiliatedService;
     @Mock
-    private IVoteSessionService voteSessionService;
+    private VoteSessionService voteSessionService;
     @Mock
     private IVoteMapper voteMapper;
 
     private Vote vote;
     private VoteRequest voteRequest;
+    private VoteResponse voteResponse;
     private Affiliated affiliated;
     private VoteSession voteSession;
 
@@ -53,6 +52,7 @@ class VoteServiceTest {
     void setup() {
         this.vote = IVoteStub.buildVote();
         this.voteRequest = IVoteStub.buildVoteRequest();
+        this.voteResponse = IVoteStub.buildVoteResponse();
         this.affiliated = IAffiliatedStub.buildAffiliated();
         this.voteSession = IVoteSessionStub.buildVoteSession();
     }
@@ -80,8 +80,9 @@ class VoteServiceTest {
         when(voteSessionService.getById(1L)).thenReturn(voteSession);
         when(voteMapper.voteRequestToVote(voteRequest)).thenReturn(vote);
         when(voteRepository.save(any(Vote.class))).thenReturn(vote);
+        when(voteMapper.voteToVoteResponse(vote)).thenReturn(voteResponse);
 
-        Vote savedVote = voteService.vote(voteRequest);
+        VoteResponse savedVote = voteService.vote(voteRequest);
 
         assertAll("vote",
                 () -> assertEquals(voteRequest.getAffiliatedId(), savedVote.getAffiliated().getId()),

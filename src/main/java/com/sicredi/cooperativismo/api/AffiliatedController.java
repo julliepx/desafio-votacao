@@ -1,7 +1,7 @@
 package com.sicredi.cooperativismo.api;
 
-import com.sicredi.cooperativismo.domain.Affiliated;
 import com.sicredi.cooperativismo.dto.request.AffiliatedRequest;
+import com.sicredi.cooperativismo.dto.response.AffiliatedResponse;
 import com.sicredi.cooperativismo.service.IAffiliatedService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,7 +27,7 @@ public class AffiliatedController {
             @ApiResponse(responseCode = "400", description = "Caso os dados informados sejam inválidos.")
     })
     @PostMapping()
-    public ResponseEntity<Affiliated> createAffiliated(@RequestBody @Valid AffiliatedRequest affiliatedRequest) {
+    public ResponseEntity<AffiliatedResponse> createAffiliated(@RequestBody @Valid AffiliatedRequest affiliatedRequest) {
         return new ResponseEntity<>(this.affiliatedService.createAffiliated(affiliatedRequest), HttpStatus.CREATED);
     }
 
@@ -39,7 +38,7 @@ public class AffiliatedController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrado um Associado com o ID informado.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Affiliated> getAffiliatedById(@PathVariable Long id) {
-        return new ResponseEntity<>(affiliatedService.getById(id), HttpStatus.OK);
+    public ResponseEntity<AffiliatedResponse> getAffiliatedById(@PathVariable Long id) {
+        return new ResponseEntity<>(affiliatedService.getAffiliatedById(id), HttpStatus.OK);
     }
 }

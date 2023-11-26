@@ -1,7 +1,7 @@
 package com.sicredi.cooperativismo.api;
 
-import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.VoteSessionRequest;
+import com.sicredi.cooperativismo.dto.response.VoteSessionResponse;
 import com.sicredi.cooperativismo.dto.response.VoteSessionResultResponse;
 import com.sicredi.cooperativismo.service.IVoteSessionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ public class VoteSessionController {
             @ApiResponse(responseCode = "400", description = "Caso os dados informados sejam inválidos.")
     })
     @PostMapping()
-    public ResponseEntity<VoteSession> createVoteSession(@RequestBody @Valid VoteSessionRequest voteSessionRequest) {
+    public ResponseEntity<VoteSessionResponse> createVoteSession(@RequestBody @Valid VoteSessionRequest voteSessionRequest) {
         return new ResponseEntity<>(this.voteSessionService.createVoteSession(voteSessionRequest), HttpStatus.CREATED);
     }
 
@@ -39,8 +39,8 @@ public class VoteSessionController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrada uma Sessão com o ID informado.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<VoteSession> getVoteSessionById(@PathVariable Long id) {
-        return new ResponseEntity<>(voteSessionService.getById(id), HttpStatus.OK);
+    public ResponseEntity<VoteSessionResponse> getVoteSessionById(@PathVariable Long id) {
+        return new ResponseEntity<>(voteSessionService.getVoteSessionById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Busca o resultado da Sessão de Votação")
@@ -61,7 +61,7 @@ public class VoteSessionController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrada uma Sessão com o ID informado.")
     })
     @PatchMapping("/end/{id}")
-    public ResponseEntity<VoteSession> endVoteSession(@PathVariable Long id) {
+    public ResponseEntity<Void> endVoteSession(@PathVariable Long id) {
         voteSessionService.endVoteSession(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

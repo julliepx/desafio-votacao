@@ -1,9 +1,9 @@
 package com.sicredi.cooperativismo.service;
 
-import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.TopicRequest;
+import com.sicredi.cooperativismo.dto.response.TopicResponse;
 
 public interface ITopicService {
-    Topic createTopic(TopicRequest topicRequest);
-    Topic getById(Long id);
+    TopicResponse createTopic(TopicRequest topicRequest);
+    TopicResponse getTopicById(Long id);
 }

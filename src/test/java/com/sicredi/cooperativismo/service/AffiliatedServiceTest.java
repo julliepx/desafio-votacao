@@ -1,8 +1,8 @@
 package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Affiliated;
-import com.sicredi.cooperativismo.domain.VoteSession;
 import com.sicredi.cooperativismo.dto.request.AffiliatedRequest;
+import com.sicredi.cooperativismo.dto.response.AffiliatedResponse;
 import com.sicredi.cooperativismo.enums.AffiliatedStatusEnum;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
 import com.sicredi.cooperativismo.infra.IAffiliatedRepository;
@@ -34,19 +34,22 @@ class AffiliatedServiceTest {
 
     private Affiliated affiliated;
     private AffiliatedRequest affiliatedRequest;
+    private AffiliatedResponse affiliatedResponse;
 
     @BeforeEach
     void setup() {
         this.affiliated = IAffiliatedStub.buildAffiliated();
         this.affiliatedRequest = IAffiliatedStub.buildAffiliatedRequest();
+        this.affiliatedResponse = IAffiliatedStub.buildAffiliatedResponse();
     }
 
     @Test
     void shouldCreateAffiliated() {
         when(affiliatedMapper.affiliatedRequestToAffiliated(affiliatedRequest)).thenReturn(affiliated);
         when(affiliatedRepository.save(any(Affiliated.class))).thenReturn(affiliated);
+        when(affiliatedMapper.affiliatedToAffiliatedResponse(affiliated)).thenReturn(affiliatedResponse);
 
-        Affiliated savedAffiliated = affiliatedService.createAffiliated(affiliatedRequest);
+        AffiliatedResponse savedAffiliated = affiliatedService.createAffiliated(affiliatedRequest);
 
         assertAll("createAffiliated",
                 () -> assertEquals(affiliatedRequest.getName(), savedAffiliated.getName()),

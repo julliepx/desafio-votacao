@@ -1,7 +1,7 @@
 package com.sicredi.cooperativismo.api;
 
-import com.sicredi.cooperativismo.domain.Vote;
 import com.sicredi.cooperativismo.dto.request.VoteRequest;
+import com.sicredi.cooperativismo.dto.response.VoteResponse;
 import com.sicredi.cooperativismo.service.IVoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +28,7 @@ public class VoteController {
             @ApiResponse(responseCode = "404", description = "Caso o Associado ou a Sessão de Votação não forem encontrados.")
     })
     @PostMapping()
-    public ResponseEntity<Vote> vote(@RequestBody @Valid VoteRequest voteRequest) {
+    public ResponseEntity<VoteResponse> vote(@RequestBody @Valid VoteRequest voteRequest) {
         return new ResponseEntity<>(this.voteService.vote(voteRequest), HttpStatus.CREATED);
     }
 
@@ -39,7 +39,7 @@ public class VoteController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrado um Voto com o ID informado.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Vote> getVoteById(@PathVariable Long id) {
-        return new ResponseEntity<>(voteService.getById(id), HttpStatus.OK);
+    public ResponseEntity<VoteResponse> getVoteById(@PathVariable Long id) {
+        return new ResponseEntity<>(voteService.getVoteById(id), HttpStatus.OK);
     }
 }

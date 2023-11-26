@@ -1,8 +1,8 @@
 package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Meeting;
-import com.sicredi.cooperativismo.domain.Topic;
 import com.sicredi.cooperativismo.dto.request.MeetingRequest;
+import com.sicredi.cooperativismo.dto.response.MeetingResponse;
 import com.sicredi.cooperativismo.enums.MeetingStatusEnum;
 import com.sicredi.cooperativismo.exceptions.BadRequestException;
 import com.sicredi.cooperativismo.exceptions.NotFoundException;
@@ -36,18 +36,21 @@ class MeetingServiceTest {
 
     private Meeting meeting;
     private MeetingRequest meetingRequest;
+    private MeetingResponse meetingResponse;
     @BeforeEach()
     void setup() {
         this.meeting = IMeetingStub.buildMeeting();
         this.meetingRequest = IMeetingStub.buildMeetingRequest();
+        this.meetingResponse = IMeetingStub.buildMeetingResponse();
     }
 
     @Test
     void shouldCreateMeeting() {
         when(meetingMapper.meetingRequestToMeeting(meetingRequest)).thenReturn(meeting);
         when(meetingRepository.save(any(Meeting.class))).thenReturn(meeting);
+        when(meetingMapper.meetingToMeetingResponse(meeting)).thenReturn(meetingResponse);
 
-        Meeting savedMeeting = meetingService.createMeeting(meetingRequest);
+        MeetingResponse savedMeeting = meetingService.createMeeting(meetingRequest);
 
         assertEquals(MeetingStatusEnum.STARTED, savedMeeting.getStatus());
         verify(meetingRepository).save(any(Meeting.class));
