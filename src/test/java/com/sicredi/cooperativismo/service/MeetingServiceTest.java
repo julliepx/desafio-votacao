@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -30,7 +31,7 @@ class MeetingServiceTest {
     private MeetingService meetingService;
     @Mock
     private IMeetingRepository meetingRepository;
-    @Mock
+    @Spy
     private IMeetingMapper meetingMapper;
 
     private Meeting meeting;
