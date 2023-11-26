@@ -2,10 +2,11 @@ package com.sicredi.cooperativismo.service;
 
 import com.sicredi.cooperativismo.domain.Meeting;
 import com.sicredi.cooperativismo.dto.request.MeetingRequest;
+import com.sicredi.cooperativismo.dto.response.MeetingResponse;
 
 public interface IMeetingService {
 
-    Meeting createMeeting(MeetingRequest meetingRequest);
-    Meeting getById(Long id);
+    MeetingResponse createMeeting(MeetingRequest meetingRequest);
+    MeetingResponse getMeetingById(Long id);
     void endMeeting(Long id);
 }

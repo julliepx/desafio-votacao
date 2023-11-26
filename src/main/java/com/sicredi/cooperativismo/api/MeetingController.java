@@ -2,6 +2,7 @@ package com.sicredi.cooperativismo.api;
 
 import com.sicredi.cooperativismo.domain.Meeting;
 import com.sicredi.cooperativismo.dto.request.MeetingRequest;
+import com.sicredi.cooperativismo.dto.response.MeetingResponse;
 import com.sicredi.cooperativismo.service.IMeetingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,7 +28,7 @@ public class MeetingController {
             @ApiResponse(responseCode = "400", description = "Caso os dados informados sejam inválidos.")
     })
     @PostMapping()
-    public ResponseEntity<Meeting> createMeeting(@RequestBody @Valid MeetingRequest meetingRequest) {
+    public ResponseEntity<MeetingResponse> createMeeting(@RequestBody @Valid MeetingRequest meetingRequest) {
         return new ResponseEntity<>(meetingService.createMeeting(meetingRequest), HttpStatus.CREATED);
     }
 
@@ -38,8 +39,8 @@ public class MeetingController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrada uma Assembleia com o ID informado.")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Meeting> getMeetingById(@PathVariable Long id) {
-        return new ResponseEntity<>(meetingService.getById(id), HttpStatus.OK);
+    public ResponseEntity<MeetingResponse> getMeetingById(@PathVariable Long id) {
+        return new ResponseEntity<>(meetingService.getMeetingById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Encerra uma Assembleia")
@@ -49,7 +50,7 @@ public class MeetingController {
             @ApiResponse(responseCode = "404", description = "Caso não seja encontrada uma Assembleia com o ID informado.")
     })
     @PatchMapping("/{id}")
-    public ResponseEntity<Meeting> endMeeting(@PathVariable Long id) {
+    public ResponseEntity<Void> endMeeting(@PathVariable Long id) {
         meetingService.endMeeting(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
